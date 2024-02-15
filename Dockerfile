@@ -55,6 +55,8 @@ RUN pip install psycopg2-binary
 
 # Instalar o uvicorn e aiofiles
 RUN pip install uvicorn aiofiles
+RUN pip install fastapi
+
 
 # Expor a porta que a aplicação FastAPI estará escutando
 EXPOSE 8000
