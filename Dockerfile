@@ -16,7 +16,7 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --d
 ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
 
 EXPOSE $PORT
-EXPOSE 5000
+# EXPOSE 5000
 # Configurando as variáveis de ambiente para a execução do script Python
 RUN echo $CREDENTIAL > /tmp/debug
 
