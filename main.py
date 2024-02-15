@@ -61,15 +61,18 @@ async def executar_no_terminal(comando):
 
 async def run_command(command: str):
     if command == 'config':
-        # await executar_no_terminal('pip install pyppeteer')
-        driver = await abrir_navegador(browser='chrome')
-        driver.get('https://www.google.com.br')
-        print(f'Acessou link')
-        elemento = await aguardar_elemento(driver, 'body > div.L3eUgb > div.o3j99.ikrT4e.om7nvf > form > div:nth-child(1) > div.A8SBwf > div.FPdoLc.lJ9FBc > center > input.RNmpXc')
-        texto_do_elemento = elemento.get_attribute('value')
-        print(f'>>> Texto do elemento teste -> {texto_do_elemento}')
-        driver.quit()
-        return f' ✅  Webdriver acessado com sucesso   ✅'
+        try:
+                # await executar_no_terminal('pip install pyppeteer')
+                driver = await abrir_navegador(browser='chrome')
+                driver.get('https://www.google.com.br')
+                print(f'Acessou link')
+                elemento = await aguardar_elemento(driver, 'body > div.L3eUgb > div.o3j99.ikrT4e.om7nvf > form > div:nth-child(1) > div.A8SBwf > div.FPdoLc.lJ9FBc > center > input.RNmpXc')
+                texto_do_elemento = elemento.get_attribute('value')
+                print(f'>>> Texto do elemento teste -> {texto_do_elemento}')
+                driver.quit()
+                return f' ✅  Webdriver acessado com sucesso   ✅'
+                
+        except Exception as e: return f'❌ Erro ao acessar webdriver: {e}'
     else:
         retorno = await executar_no_terminal(command)
         print(f"Comando recebido: {command}")
