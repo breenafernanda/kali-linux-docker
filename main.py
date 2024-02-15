@@ -91,6 +91,15 @@ async def execute_command(command: dict):
         return {"result": result}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+        
+@app.post("/financiamento")
+async def execute_command(json_data: dict):
+    try:
+        print(f'Json recebido: {json_data}')
+        return {"result": json_data}
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     import uvicorn
