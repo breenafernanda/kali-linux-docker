@@ -48,14 +48,14 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN python -m venv /venv
 ENV PATH="/venv/bin:$PATH"
 
-# Instalar o Alembic
-RUN pip install alembic
+# # Instalar o Alembic
+# RUN pip install alembic
 
-# Copiar o código-fonte para o contêiner
-COPY . /app/
+# # Copiar o código-fonte para o contêiner
+# COPY . /app/
 
-# Adicionar o alembic.ini à imagem
-COPY alembic.ini /app/alembic.ini
+# # Adicionar o alembic.ini à imagem
+# COPY alembic.ini /app/alembic.ini
 
 # Instalar o pydantic_settings
 RUN pip install pydantic-settings
