@@ -38,8 +38,15 @@ COPY requirements.txt /app/
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Criação de um ambiente virtual
+RUN python -m venv /venv
+ENV PATH="/venv/bin:$PATH"
+
 # Copiar o código-fonte para o contêiner
 COPY . /app/
+
+# Criar o diretório 'static'
+RUN mkdir /app/static
 
 # Instalar o pydantic_settings
 RUN pip install pydantic-settings
@@ -54,4 +61,4 @@ RUN pip install uvicorn
 EXPOSE 8000
 
 # Comando para iniciar a aplicação
-CMD ["sh", "-c", "echo 'IP público do contêiner: $(curl -s ifconfig.me) e Porta exposta: 8000' && uvicorn main:app --host 0.0.0.0 --port 8000 --reload"]
+CMD ["sh", "-c", "echo 'IP público do contêiner: $(curl -s ifconfig.me) e Porta exposta: 8000' && uvicorn app:app --host 0.0.0.0 --port 8000 --reload"]
