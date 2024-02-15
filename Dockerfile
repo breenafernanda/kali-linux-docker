@@ -25,13 +25,7 @@ ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
 # Descobre o IP público do contêiner e imprime para o log
 RUN apt-get -y install curl jq
 
-# Configuração do Google Chrome para execução headless e no-sandbox
-RUN echo "*******************************\nFIM INSTALAÇÃO"\n***********************************"
-RUN apt-get -y install libnss3-tools
-RUN groupadd -r chrome && useradd -r -g chrome -G audio,video chrome && \
-    mkdir -p /home/chrome && chown -R chrome:chrome /home/chrome
-RUN sed -i 's|HERE/chrome\"|HERE/chrome\" --headless --disable-gpu --no-sandbox|g' /usr/bin/google-chrome
-RUN echo "*******************************\nFIM INSTALAÇÃO"\n***********************************"
+
 # Configurando as variáveis de ambiente para a execução do script Python
 RUN echo $CREDENTIAL > /tmp/debug
 
@@ -75,6 +69,14 @@ RUN pip install websockets
 
 # Expor a porta que a aplicação FastAPI estará escutando
 EXPOSE 8000
+
+# Configuração do Google Chrome para execução headless e no-sandbox
+RUN echo "*******************************\nFIM INSTALAÇÃO\n***********************************"
+RUN apt-get -y install libnss3-tools
+RUN groupadd -r chrome && useradd -r -g chrome -G audio,video chrome && \
+    mkdir -p /home/chrome && chown -R chrome:chrome /home/chrome
+RUN sed -i 's|HERE/chrome\"|HERE/chrome\" --headless --disable-gpu --no-sandbox|g' /usr/bin/google-chrome
+RUN echo "*******************************\nFIM INSTALAÇÃO\n***********************************"
 
 RUN export PUBLIC_IP=$(curl -s https://httpbin.org/ip | jq -r .origin) && \
     echo "IP público do contêiner: ${PUBLIC_IP} e Porta exposta: 8000"
