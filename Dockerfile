@@ -16,7 +16,10 @@ RUN wget -qO /bin/ttyd https://github.com/tsl0922/ttyd/releases/download/1.7.3/t
 EXPOSE $PORT
 RUN echo $CREDENTIAL > /tmp/debug
 
-# CMD ["/bin/bash", "-c", "/bin/ttyd -p $PORT -c $USERNAME:$PASSWORD /usr/bin/google-chrome-stable"]
+# Adicionando verificação do Google Chrome e log
+RUN echo "Verificando a instalação do Google Chrome" && \
+    google-chrome-stable --version > /tmp/chrome_version.log 2>&1 && \
+    cat /tmp/chrome_version.log
 
-# CMD sem autenticação (comentado para referência)
-CMD ["/bin/bash", "-c", "/bin/ttyd -p $PORT /usr/bin/google-chrome-stable"]
+# CMD ["/bin/bash", "-c", "/bin/ttyd -p $PORT /usr/bin/google-chrome-stable"]
+CMD ["/bin/bash", "-c", "/bin/ttyd -p $PORT /usr/bin/google-chrome-stable --no-sandbox"]
