@@ -71,14 +71,16 @@ RUN pip install websockets
 EXPOSE 8000
 
 # Configuração do Google Chrome para execução headless e no-sandbox
-RUN echo "*******************************\nFIM INSTALAÇÃO\n***********************************"
+RUN echo "*******************************\n INICIO DA INSTALAÇÃO\n***********************************"
 # Atualiza os repositórios e instalações necessárias
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get -y install wget gnupg xorg xauth
 
 # Adiciona o repositório do Google Chrome e instala o navegador
-
+RUN apt-get update && \
+    apt-get install -y libnss3 libgconf-2-4 libfontconfig1
+    
 # Baixe e instale a chave GPG do repositório do Chrome
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
 
