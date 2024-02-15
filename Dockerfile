@@ -38,6 +38,7 @@ COPY requirements.txt /app/
 # Instalar as dependências
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install fastapi  # Adicionando a instalação do FastAPI
 
 # Criação de um ambiente virtual
 RUN python -m venv /venv
