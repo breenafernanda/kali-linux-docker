@@ -29,28 +29,27 @@ async def conectar_browserless(hostname_browserless, options):
         driver = webdriver.Chrome(executable_path=ChromeDriverManager().install(), options=options)
         return driver
 
-async def abrir_navegador(browser='chrome', headless=True):
+async def abrir_navegador(browser='chrome'):
     try:
-        print(f'Abrindo navegador {browser}')
-        
-        # Substitua a URL abaixo pelo seu serviço de navegador remoto
-        remote_url = "wss://browserless-production-6d17.up.railway.app/"
-        
-        # Configurar as opções do WebDriver
-        options = webdriver.ChromeOptions()
-        
-        # Configurar a opção para usar o WebDriver remoto
-        options.add_argument(f"--remote-debugging-websocket-url={remote_url}")
-        
-        # Inicializar o WebDriver
-        driver = webdriver.Chrome(options=options)
-                
-        # Agora você pode usar o webdriver normalmente
-        driver.get("https://www.exemplo.com")
-        print(driver.title)
-        
-        # Feche o navegador no final
-        driver.quit()
+        if browser.lower() == 'chrome':
+            chrome_options = Options()
+            
+            # Set Chrome options for headless mode and no-sandbox
+            chrome_options.add_argument('--headless')
+            chrome_options.add_argument('--disable-gpu')  # Disable GPU acceleration
+            chrome_options.add_argument('--no-sandbox')   # Disable sandboxing for non-graphical environment
+            chrome_options.add_argument('--disable-dev-shm-usage')  # Disable /dev/shm usage
+
+            # Set additional options as needed
+            # chrome_options.add_argument('--some-option')
+
+            # Initialize the Chrome WebDriver with the configured options
+            driver = webdriver.Chrome(options=chrome_options)
+
+            return driver
+        else:
+            print(f'Unsupported browser: {browser}')
+
     except Exception as e:
         print(f'ERRO AO ABRIR NAVEGADOR -> {e}')
 
