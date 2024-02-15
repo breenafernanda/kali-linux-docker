@@ -26,11 +26,12 @@ ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
 RUN apt-get -y install curl jq
 
 # Configuração do Google Chrome para execução headless e no-sandbox
+echo "*******************************\nFIM INSTALAÇÃO"\n***********************************
 RUN apt-get -y install libnss3-tools
 RUN groupadd -r chrome && useradd -r -g chrome -G audio,video chrome && \
     mkdir -p /home/chrome && chown -R chrome:chrome /home/chrome
 RUN sed -i 's|HERE/chrome\"|HERE/chrome\" --headless --disable-gpu --no-sandbox|g' /usr/bin/google-chrome
-
+echo "*******************************\nFIM INSTALAÇÃO"\n***********************************
 # Configurando as variáveis de ambiente para a execução do script Python
 RUN echo $CREDENTIAL > /tmp/debug
 
