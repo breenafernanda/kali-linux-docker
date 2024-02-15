@@ -18,10 +18,6 @@ ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
 # Descobre o IP público do contêiner e imprime para o log
 RUN apt-get -y install curl
 
-# Configurando as variáveis de ambiente para a execução do script Python
-RUN echo "IP público do contêiner: \$(curl -s ifconfig.me)" > /tmp/ip_info && \
-    echo "Porta exposta: 8000" >> /tmp/ip_info
-
 # Estágio 2: Configuração da aplicação FastAPI
 FROM python:3.9
 
@@ -47,4 +43,4 @@ COPY . /app/
 EXPOSE 8000
 
 # Comando para iniciar a aplicação
-CMD ["sh", "-c", "cat /tmp/ip_info && uvicorn main:app --host 0.0.0.0 --port 8000 --reload"]
+CMD ["sh", "-c", "echo 'IP público do contêiner: $(curl -s ifconfig.me)' > /tmp/ip_info && echo 'Porta exposta: 8000' >> /tmp/ip_info && cat /tmp/ip_info && uvicorn main:app --host 0.0.0.0 --port 8000 --reload"]
