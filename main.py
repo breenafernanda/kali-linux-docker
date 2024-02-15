@@ -35,7 +35,14 @@ async def abrir_navegador(browser='chrome'):
 
             # Set additional options as needed
             # chrome_options.add_argument('--some-option')
-
+            capabilities = {
+                    'browserName': 'chrome',
+                    'goog:chromeOptions': {
+                        'args': ['--headless', '--disable-gpu', '--no-sandbox', '--disable-dev-shm-usage', '--disable-software-rasterizer', '--disable-extensions'],
+                        'log-level': 'DEBUG'
+                    }
+            }
+            driver = webdriver.Chrome(options=chrome_options, desired_capabilities=capabilities)
             # Initialize the Chrome WebDriver with the configured options
             driver = webdriver.Chrome(options=chrome_options)
             print('>>> WEBDRIVER INICIADO COM SUCESSO!')
