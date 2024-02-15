@@ -30,6 +30,8 @@ async def abrir_navegador(browser='chrome'):
             chrome_options.add_argument('--disable-gpu')  # Disable GPU acceleration
             chrome_options.add_argument('--no-sandbox')   # Disable sandboxing for non-graphical environment
             chrome_options.add_argument('--disable-dev-shm-usage')  # Disable /dev/shm usage
+            chrome_options.add_argument('--disable-software-rasterizer')  # Desativar rasterização de software
+            chrome_options.add_argument('--disable-extensions')  # Desativar extensões
 
             # Set additional options as needed
             # chrome_options.add_argument('--some-option')
