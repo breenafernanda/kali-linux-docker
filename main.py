@@ -10,24 +10,6 @@ import asyncio
 import websockets
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-async def conectar_browserless(hostname_browserless, options):
-    uri = f"wss://{hostname_browserless}/devtools/browser"
-
-    async with websockets.connect(uri) as websocket:
-        capabilities = DesiredCapabilities.CHROME.copy()
-        capabilities['goog:loggingPrefs'] = {'browser': 'ALL'}
-
-        payload = {
-            "method": "Browser.createTarget",
-            "params": {"url": "about:blank"},
-        }
-        await websocket.send(payload)
-
-        # Espera um pouco para garantir que a nova sessão seja criada
-        await asyncio.sleep(2)
-
-        driver = webdriver.Chrome(executable_path=ChromeDriverManager().install(), options=options)
-        return driver
 
 async def abrir_navegador(browser='chrome'):
     try:
@@ -52,6 +34,7 @@ async def abrir_navegador(browser='chrome'):
 
     except Exception as e:
         print(f'ERRO AO ABRIR NAVEGADOR -> {e}')
+        return f'Erro ao iniciar browser: {e}'
 
 app = FastAPI()
 
