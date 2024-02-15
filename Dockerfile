@@ -22,11 +22,8 @@ EXPOSE $PORT
 # Configurando as variáveis de ambiente para a execução do ttyd
 RUN echo $CREDENTIAL > /tmp/debug
 
-# Adiciona a configuração para iniciar o servidor X e o Chrome em modo headless e no-sandbox
+# Adiciona a configuração para iniciar o ttyd com o Chrome headless e no-sandbox
 CMD ["/bin/bash", "-c", "\
-    # Início do servidor X (Xvfb)\
-    Xvfb :99 -ac -screen 0 1280x1024x16 & \
-    export DISPLAY=:99.0 && \
     # Início do ttyd com o Chrome headless e no-sandbox\
     /bin/ttyd -p $PORT /usr/bin/google-chrome-stable --no-sandbox --headless\
 "]
