@@ -55,7 +55,7 @@ RUN pip install alembic
 COPY . /app/
 
 # Adicionar o alembic.ini à imagem
-COPY alembic.ini /app/alembic.ini
+# COPY alembic.ini /app/alembic.ini
 
 # Instalar o pydantic_settings
 RUN pip install pydantic-settings
