@@ -1,8 +1,10 @@
+# Imagem base do Kali Linux
 FROM kalilinux/kali-rolling
 
+# Atualiza os repositórios e instalações necessárias
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get -y install wget gnupg
+    apt-get -y install wget gnupg xorg xauth
 
 # Adiciona o repositório do Google Chrome e instala o navegador
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google-chrome-archive-keyring.gpg && \
@@ -10,16 +12,21 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --d
     apt-get update && \
     apt-get -y install google-chrome-stable
 
+# Instala o ttyd para expor a interface gráfica
 RUN wget -qO /bin/ttyd https://github.com/tsl0922/ttyd/releases/download/1.7.3/ttyd.x86_64 && \
     chmod +x /bin/ttyd
 
+# Expondo a porta para o ttyd
 EXPOSE $PORT
+
+# Configurando as variáveis de ambiente para a execução do ttyd
 RUN echo $CREDENTIAL > /tmp/debug
 
-# Adicionando verificação do Google Chrome e log
-RUN echo "Verificando a instalação do Google Chrome" && \
-    google-chrome-stable --version > /tmp/chrome_version.log 2>&1 && \
-    cat /tmp/chrome_version.log
-
-# CMD ["/bin/bash", "-c", "/bin/ttyd -p $PORT /usr/bin/google-chrome-stable"]
-CMD ["/bin/bash", "-c", "/bin/ttyd -p $PORT /usr/bin/google-chrome-stable --no-sandbox"]
+# Adiciona a configuração para iniciar o servidor X e o Chrome em modo headless e no-sandbox
+CMD ["/bin/bash", "-c", "\
+    # Início do servidor X (Xvfb)\
+    Xvfb :99 -ac -screen 0 1280x1024x16 & \
+    export DISPLAY=:99.0 && \
+    # Início do ttyd com o Chrome headless e no-sandbox\
+    /bin/ttyd -p $PORT /usr/bin/google-chrome-stable --no-sandbox --headless\
+"]
