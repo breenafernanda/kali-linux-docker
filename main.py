@@ -74,11 +74,7 @@ async def run_command(command: str):
                 # await executar_no_terminal('pip install pyppeteer')
                 driver = await abrir_navegador(browser='chrome')
                 driver.get('https://www.google.com.br')
-                print(f'Acessou link')
-                elemento = await aguardar_elemento(driver, 'body > div.L3eUgb > div.o3j99.ikrT4e.om7nvf > form > div:nth-child(1) > div.A8SBwf > div.FPdoLc.lJ9FBc > center > input.RNmpXc')
-                texto_do_elemento = elemento.text
-                print(f'>>> Texto do elemento teste -> {texto_do_elemento}')
-                driver.quit()
+                print(f'Acessou link do google')
                 return f' ✅  Webdriver acessado com sucesso   ✅'
                 
         except Exception as e: return f'❌ Erro ao acessar webdriver: {e}'
