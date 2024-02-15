@@ -57,7 +57,7 @@ RUN pip install psycopg2-binary
 RUN pip install uvicorn aiofiles
 RUN pip install fastapi
 RUN pip install selenium
-
+RUN pip install webdriver-manager
 
 # Expor a porta que a aplicação FastAPI estará escutando
 EXPOSE 8000
