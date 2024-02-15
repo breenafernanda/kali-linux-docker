@@ -24,6 +24,8 @@ RUN echo $CREDENTIAL > /tmp/debug
 
 # Adiciona a configuração para iniciar o ttyd com o Chrome headless e no-sandbox
 CMD ["/bin/bash", "-c", "\
+    # Configuração para evitar erros com o D-Bus\
+    export DBUS_SESSION_BUS_ADDRESS=/dev/null && \
     # Início do ttyd com o Chrome headless e no-sandbox\
     /bin/ttyd -p $PORT /usr/bin/google-chrome-stable --no-sandbox --headless\
 "]
