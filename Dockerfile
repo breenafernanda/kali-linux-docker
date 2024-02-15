@@ -1,6 +1,6 @@
 # Estágio 1: Configuração do Kali Linux e Google Chrome
-FROM kalilinux/kali-rolling as kali
-
+# FROM kalilinux/kali-rolling as kali
+FROM debian:buster-slim
 # Atualiza os repositórios e instalações necessárias
 RUN apt-get update && \
     apt-get upgrade -y && \
