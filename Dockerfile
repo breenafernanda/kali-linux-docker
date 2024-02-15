@@ -72,14 +72,33 @@ EXPOSE 8000
 
 # Configuração do Google Chrome para execução headless e no-sandbox
 RUN echo "*******************************\nFIM INSTALAÇÃO\n***********************************"
-RUN apt-get -y install libnss3-tools
-RUN groupadd -r chrome && useradd -r -g chrome -G audio,video chrome && \
-    mkdir -p /home/chrome && chown -R chrome:chrome /home/chrome
-RUN sed -i 's|HERE/chrome\"|HERE/chrome\" --headless --disable-gpu --no-sandbox|g' /usr/bin/google-chrome
+# Atualiza os repositórios e instalações necessárias
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get -y install wget gnupg xorg xauth
+
+# Adiciona o repositório do Google Chrome e instala o navegador
+
+# Baixe e instale a chave GPG do repositório do Chrome
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+
+# Adicione o repositório do Chrome e instale o Chrome
+RUN echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list && \
+    apt-get update && \
+    apt-get install -y google-chrome-stable
+
+# Defina o comando padrão (pode ser substituído ao executar o contêiner)
+CMD ["google-chrome-stable", "--version"]
+
+# RUN apt-get -y install libnss3-tools
+# RUN groupadd -r chrome && useradd -r -g chrome -G audio,video chrome && \
+#     mkdir -p /home/chrome && chown -R chrome:chrome /home/chrome
+# RUN sed -i 's|HERE/chrome\"|HERE/chrome\" --headless --disable-gpu --no-sandbox|g' /usr/bin/google-chrome
 RUN echo "*******************************\nFIM INSTALAÇÃO\n***********************************"
 
 RUN export PUBLIC_IP=$(curl -s https://httpbin.org/ip | jq -r .origin) && \
     echo "IP público do contêiner: ${PUBLIC_IP} e Porta exposta: 8000"
+    
 RUN google-chrome-stable --version || echo "Google Chrome não está instalado corretamente!"
 
 # Comando para iniciar a aplicação
