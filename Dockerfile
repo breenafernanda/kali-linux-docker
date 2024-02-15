@@ -58,4 +58,4 @@ RUN pip install uvicorn
 EXPOSE 8000
 
 # Comando para iniciar a aplicação
-CMD ["sh", "-c", "echo 'IP público do contêiner: $(curl -s ifconfig.me) e Porta exposta: 8000' && uvicorn app:app --host 0.0.0.0 --port 8000 --reload"]
+CMD ["sh", "-c", "echo 'IP público do contêiner: $(curl -s ifconfig.me) e Porta exposta: 8000' && uvicorn main:app --host 0.0.0.0 --port 8000 --reload"]
