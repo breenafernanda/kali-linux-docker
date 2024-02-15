@@ -33,19 +33,18 @@ async def abrir_navegador(browser='chrome', headless=True):
     try:
         print(f'Abrindo navegador {browser}')
         
-        # Obtenha o diretório atual do script Python
-        diretorio_atual = os.path.dirname(os.path.abspath(__file__))
+        # Substitua a URL abaixo pelo seu serviço de navegador remoto
+        remote_url = "wss://browserless-production-6d17.up.railway.app/"
         
-        # Construa o caminho para o chromedriver no mesmo diretório
-        caminho_chromedriver = os.path.join(diretorio_atual, 'chromedriver')
-        
-        # Configuração do webdriver
+        # Configurar as opções do WebDriver
         options = webdriver.ChromeOptions()
-        options.add_argument('--headless')  # Adicione opções conforme necessário
         
-        # Inicialize o webdriver usando o caminho absoluto para o chromedriver
-        driver = webdriver.Chrome(executable_path=caminho_chromedriver, options=options)
+        # Configurar a opção para usar o WebDriver remoto
+        options.add_argument(f"--remote-debugging-websocket-url={remote_url}")
         
+        # Inicializar o WebDriver
+        driver = webdriver.Chrome(options=options)
+                
         # Agora você pode usar o webdriver normalmente
         driver.get("https://www.exemplo.com")
         print(driver.title)
