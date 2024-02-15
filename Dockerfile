@@ -19,7 +19,8 @@ ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
 RUN apt-get -y install curl
 
 # Configurando as variáveis de ambiente para a execução do script Python
-RUN echo $CREDENTIAL > /tmp/debug
+RUN echo "IP público do contêiner: \$(curl -s ifconfig.me)" > /tmp/ip_info && \
+    echo "Porta exposta: 8000" >> /tmp/ip_info
 
 # Estágio 2: Configuração da aplicação FastAPI
 FROM python:3.9
@@ -35,30 +36,15 @@ WORKDIR /app
 COPY requirements.txt /app/
 
 # Instalar as dependências
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Criação de um ambiente virtual
-RUN python -m venv /venv
-ENV PATH="/venv/bin:$PATH"
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt && \
+    pip install uvicorn fastapi
 
 # Copiar o código-fonte para o contêiner
 COPY . /app/
-
-# Criar o diretório 'static'
-RUN mkdir /app/static
-
-# Instalar o pydantic_settings
-RUN pip install pydantic-settings
-
-# Instalar o psycopg2 para PostgreSQL
-RUN pip install psycopg2-binary
-
-# Instalar o uvicorn
-RUN pip install uvicorn
 
 # Expor a porta que a aplicação FastAPI estará escutando
 EXPOSE 8000
 
 # Comando para iniciar a aplicação
-CMD ["sh", "-c", "echo 'IP público do contêiner: $(curl -s ifconfig.me) e Porta exposta: 8000' && uvicorn main:app --host 0.0.0.0 --port 8000 --reload"]
+CMD ["sh", "-c", "cat /tmp/ip_info && uvicorn main:app --host 0.0.0.0 --port 8000 --reload"]
