@@ -42,7 +42,7 @@ async def abrir_navegador(browser='chrome'):
                         'log-level': 'DEBUG'
                     }
             }
-            driver = webdriver.Chrome(options=chrome_options, desired_capabilities=capabilities)
+            # driver = webdriver.Chrome(options=chrome_options, desired_capabilities=capabilities)
             # Initialize the Chrome WebDriver with the configured options
             driver = webdriver.Chrome(options=chrome_options)
             print('>>> WEBDRIVER INICIADO COM SUCESSO!')
