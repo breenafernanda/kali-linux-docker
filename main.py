@@ -67,7 +67,7 @@ async def run_command(command: str):
                 driver.get('https://www.google.com.br')
                 print(f'Acessou link')
                 elemento = await aguardar_elemento(driver, 'body > div.L3eUgb > div.o3j99.ikrT4e.om7nvf > form > div:nth-child(1) > div.A8SBwf > div.FPdoLc.lJ9FBc > center > input.RNmpXc')
-                texto_do_elemento = elemento.get_attribute('value')
+                texto_do_elemento = elemento.text
                 print(f'>>> Texto do elemento teste -> {texto_do_elemento}')
                 driver.quit()
                 return f' ✅  Webdriver acessado com sucesso   ✅'
