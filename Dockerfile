@@ -12,20 +12,13 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --d
     apt-get update && \
     apt-get -y install google-chrome-stable
 
-# Instala o ttyd para expor a interface gráfica
-RUN wget -qO /bin/ttyd https://github.com/tsl0922/ttyd/releases/download/1.7.3/ttyd.x86_64 && \
-    chmod +x /bin/ttyd
+# Configuração para evitar erros com o D-Bus
+ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
 
-# Expondo a porta para o ttyd
 EXPOSE $PORT
-
-# Configurando as variáveis de ambiente para a execução do ttyd
+EXPOSE 5000
+# Configurando as variáveis de ambiente para a execução do script Python
 RUN echo $CREDENTIAL > /tmp/debug
 
-# Adiciona a configuração para iniciar o ttyd com o Chrome headless e no-sandbox
-CMD ["/bin/bash", "-c", "\
-    # Configuração para evitar erros com o D-Bus\
-    export DBUS_SESSION_BUS_ADDRESS=/dev/null && \
-    # Início do ttyd com o Chrome headless e no-sandbox\
-    /bin/ttyd -p $PORT /usr/bin/google-chrome-stable --no-sandbox --headless\
-"]
+# CMD para iniciar o seu script Python (substitua o comando abaixo pelo seu)
+# CMD ["/usr/bin/python3", "/caminho/do/seu/script.py"]
