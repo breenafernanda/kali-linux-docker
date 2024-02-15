@@ -19,7 +19,7 @@ ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
 RUN apt-get -y install curl
 
 # Configurando as variáveis de ambiente para a execução do script Python
-RUN echo "IP público do docker: \$(curl -s ifconfig.me)" > /tmp/ip_info && \
+RUN echo "IP público do contêiner: \$(curl -s ifconfig.me)" > /tmp/ip_info && \
     echo "Porta exposta: 8000" >> /tmp/ip_info
 
 # Estágio 2: Configuração da aplicação FastAPI
