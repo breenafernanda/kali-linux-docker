@@ -38,10 +38,6 @@ COPY requirements.txt /app/
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Criação de um ambiente virtual
-RUN python -m venv /venv
-ENV PATH="/venv/bin:$PATH"
-
 # Copiar o código-fonte para o contêiner
 COPY . /app/
 
