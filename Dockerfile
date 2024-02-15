@@ -7,11 +7,17 @@ RUN apt-get update && \
     apt-get -y install wget gnupg xorg xauth
 
 # Adiciona o repositório do Google Chrome e instala o navegador
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google-chrome-archive-keyring.gpg && \
-    echo "deb [signed-by=/usr/share/keyrings/google-chrome-archive-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list > /dev/null && \
+
+# Baixe e instale a chave GPG do repositório do Chrome
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+
+# Adicione o repositório do Chrome e instale o Chrome
+RUN echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list && \
     apt-get update && \
-    apt-get -y install google-chrome-stable
-ENV PATH="/path/to/chrome/directory:$PATH"
+    apt-get install -y google-chrome-stable
+
+# Defina o comando padrão (pode ser substituído ao executar o contêiner)
+CMD ["google-chrome-stable", "--version"]
 
 # Configuração para evitar erros com o D-Bus
 ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
