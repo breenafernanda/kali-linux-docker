@@ -11,6 +11,8 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --d
     echo "deb [signed-by=/usr/share/keyrings/google-chrome-archive-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list > /dev/null && \
     apt-get update && \
     apt-get -y install google-chrome-stable
+ENV PATH="/path/to/chrome/directory:$PATH"
+RUN google-chrome-stable --version
 
 # Configuração para evitar erros com o D-Bus
 ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
