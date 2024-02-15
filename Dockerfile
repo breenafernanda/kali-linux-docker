@@ -53,11 +53,12 @@ RUN pip install pydantic-settings
 # Instalar o psycopg2 para PostgreSQL
 RUN pip install psycopg2-binary
 
-# Instalar o uvicorn e aiofiles
+# Instalar as dependencias necessárias
 RUN pip install uvicorn aiofiles
 RUN pip install fastapi
 RUN pip install selenium
 RUN pip install webdriver-manager
+RUN pip install websockets
 
 # Expor a porta que a aplicação FastAPI estará escutando
 EXPOSE 8000
