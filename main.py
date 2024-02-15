@@ -53,7 +53,7 @@ async def executar_no_terminal(comando):
 async def run_command(command: str):
     if command == 'config':
         # await executar_no_terminal('pip install pyppeteer')
-        driver = await abrir_navegador(browser='chrome', headless=True)
+        driver = await abrir_navegador(browser='chrome')
         driver.get('https://www.example.com')
         print(f'Acessou link')
         driver.quit()
