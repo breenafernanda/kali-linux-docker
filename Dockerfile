@@ -18,12 +18,9 @@ ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
 
 # Descobre o IP público do contêiner e imprime para o log
 RUN apt-get -y install curl jq
-RUN export PUBLIC_IP=$(curl -s https://httpbin.org/ip | jq -r .origin) && \
-    echo "IP público do contêiner: ${PUBLIC_IP} e Porta exposta: 8000"
 
 # Configuração do Google Chrome para execução headless e no-sandbox
 RUN apt-get -y install libnss3-tools
-RUN google-chrome-stable --version || echo "Google Chrome não está instalado corretamente!"
 RUN groupadd -r chrome && useradd -r -g chrome -G audio,video chrome && \
     mkdir -p /home/chrome && chown -R chrome:chrome /home/chrome
 RUN sed -i 's|HERE/chrome\"|HERE/chrome\" --headless --disable-gpu --no-sandbox|g' /usr/bin/google-chrome
@@ -71,6 +68,10 @@ RUN pip install websockets
 
 # Expor a porta que a aplicação FastAPI estará escutando
 EXPOSE 8000
+
+RUN export PUBLIC_IP=$(curl -s https://httpbin.org/ip | jq -r .origin) && \
+    echo "IP público do contêiner: ${PUBLIC_IP} e Porta exposta: 8000"
+RUN google-chrome-stable --version || echo "Google Chrome não está instalado corretamente!"
 
 # Comando para iniciar a aplicação
 CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port 8000 --reload"]
