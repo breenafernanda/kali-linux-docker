@@ -9,8 +9,17 @@ import subprocess, os
 import asyncio
 import websockets
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
-
+async def aguardar_elemento(driver, elemento):
+        # Wait for the input field to be present
+        element = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, elemento))
+        )
+        return element
+        
 async def abrir_navegador(browser='chrome'):
     try:
         if browser.lower() == 'chrome':
@@ -27,7 +36,7 @@ async def abrir_navegador(browser='chrome'):
 
             # Initialize the Chrome WebDriver with the configured options
             driver = webdriver.Chrome(options=chrome_options)
-
+            print('>>> WEBDRIVER INICIADO COM SUCESSO!')
             return driver
         else:
             print(f'Unsupported browser: {browser}')
@@ -54,13 +63,16 @@ async def run_command(command: str):
     if command == 'config':
         # await executar_no_terminal('pip install pyppeteer')
         driver = await abrir_navegador(browser='chrome')
-        driver.get('https://www.example.com')
+        driver.get('https://www.google.com.br')
         print(f'Acessou link')
+        elemento = await aguardar_elemento(driver, 'body > div.L3eUgb > div.o3j99.ikrT4e.om7nvf > form > div:nth-child(1) > div.A8SBwf > div.FPdoLc.lJ9FBc > center > input.RNmpXc')
+        
         driver.quit()
+        return elemento.get_attribute('value')
     else:
         retorno = await executar_no_terminal(command)
-    print(f"Comando recebido: {command}")
-    return f'{command}\n🤖 {retorno}\n\nComando Recebido pela API com sucesso ✅\n_________________________________'
+        print(f"Comando recebido: {command}")
+        return f'Comando enviado:{command}\n\nComando Recebido pela API com sucesso ✅\n\n\n🤖 {retorno}\n_________________________________'
 
 @app.get("/terminal", response_class=HTMLResponse)
 async def terminal():
