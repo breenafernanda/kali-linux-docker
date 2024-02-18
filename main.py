@@ -223,7 +223,8 @@ async def acessar_bv(driver, cliente):
             driver.get('https://instalador.meufinanciamentosolar.com.br/dashboard/proposals-create')
             await asyncio.sleep(2)
 
-            driver.find_element(By.ID, 'installer_info_cnpj').send_keys('18.902.786/0001-06')
+            cnpj_instalador = await aguardar_elemento(driver, 10, 'ID', 'installer_info_cnpj')
+            cnpj_instalador.send_keys('18.902.786/0001-06')
             driver.find_element(By.ID, 'installer_info_email').send_keys('camilacaetano.kinsol@gmail.com')
             driver.find_element(By.ID, 'value').clear()
             valor_proposta = cliente['valor_proposta']
