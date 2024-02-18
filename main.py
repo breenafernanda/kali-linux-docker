@@ -227,12 +227,15 @@ async def acessar_bv(driver, cliente):
 
             # password_input.send_keys(Keys.ENTER)
             driver.find_element(By.ID, 'login-form_button').click()
-            # Wait for the dashboard page to load
+            time.sleep(10)
             try:
-                WebDriverWait(driver, 15).until(EC.url_to_be('https://instalador.meufinanciamentosolar.com.br/dashboard/home'))
-            except Exception as e: 
-                print(f'Erro {e}')
-                time.sleep(10)
+                driver.find_element(By.ID, 'login-form_button').click()
+            except Exception as e: (f'>>> botao login nao disponivel: {e}')
+
+            # imprimir log da pagina para saber se deu alguma mensagem de falha de login 
+                # Capture and print the page source
+            print("Page source after login attempt:")
+            print(driver.page_source)
             print(f'>>> Realizando login no banco BV <<<')
         except Exception as e:
             print(f'\x1b[32m[ {numero_proposta} - BANCO BV ]  -ERRO AO LOGAR {e}\x1b[0m  ')
