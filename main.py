@@ -224,7 +224,10 @@ async def acessar_bv(driver, cliente):
             await asyncio.sleep(2)
 
             cnpj_instalador = await aguardar_elemento(driver, 10, 'ID', 'installer_info_cnpj')
-            cnpj_instalador.send_keys('18.902.786/0001-06')
+            if cnpj_instalador:
+                cnpj_instalador.send_keys('18.902.786/0001-06')
+            else:
+                print("Elemento 'installer_info_cnpj' não encontrado.")
             driver.find_element(By.ID, 'installer_info_email').send_keys('camilacaetano.kinsol@gmail.com')
             driver.find_element(By.ID, 'value').clear()
             valor_proposta = cliente['valor_proposta']
