@@ -209,7 +209,7 @@ async def acessar_bv(driver, cliente):
         print(f'>>> Acessando banco BV <<<')
         url = 'https://instalador.meufinanciamentosolar.com.br/dashboard/home'
         driver.get(url)
-        await asyncio.sleep(3)
+        time.sleep(3)
         
     
         try: 
@@ -217,7 +217,7 @@ async def acessar_bv(driver, cliente):
             driver.find_element(By.ID, 'email').send_keys('sac@kinsolenergia.com.br')
             driver.find_element(By.ID, 'password').send_keys('BA8jkFeY*')
             driver.find_element(By.ID, 'login-form_button').click()
-            await asyncio.sleep(3)
+            time.sleep(3)
             print(f'>>> Realizando login no banco BV <<<')
         except Exception as e: print(f'\x1b[32m[ {numero_proposta} - BANCO BV ]\x1b[0m  {e} \x1b[33m>>><<<<')
         # VERIFICAR SE LOGOU COM SUCESSO! 
