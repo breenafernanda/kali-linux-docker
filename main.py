@@ -216,6 +216,7 @@ async def acessar_bv(driver, cliente):
             print(f'URL ATUAL [login] >>> \n{driver.title}\n>>>{driver.current_url}\n\n')
             driver.find_element(By.ID, 'email').send_keys('sac@kinsolenergia.com.br')
             driver.find_element(By.ID, 'password').send_keys('BA8jkFeY*')
+            driver.find_element(By.ID, 'password').send_keys(Keys.ENTER)
             driver.find_element(By.ID, 'login-form_button').click()
             time.sleep(3)
             print(f'>>> Realizando login no banco BV <<<')
