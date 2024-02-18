@@ -213,15 +213,20 @@ async def acessar_bv(driver, cliente):
         
     
         try: 
+            print(f'URL ATUAL [login] >>> \n{driver.title}\n>>>{driver.current_url}\n\n')
             driver.find_element(By.ID, 'email').send_keys('sac@kinsolenergia.com.br')
             driver.find_element(By.ID, 'password').send_keys('BA8jkFeY*')
             driver.find_element(By.ID, 'login-form_button').click()
             await asyncio.sleep(3)
             print(f'>>> Realizando login no banco BV <<<')
         except Exception as e: print(f'\x1b[32m[ {numero_proposta} - BANCO BV ]\x1b[0m  {e} \x1b[33m>>><<<<')
+        # VERIFICAR SE LOGOU COM SUCESSO! 
+        print(f'URL ATUAL [dashboard] >>> \n{driver.title}\n>>>{driver.current_url}\n\n')
+        
         try:
             driver.get('https://instalador.meufinanciamentosolar.com.br/dashboard/proposals-create')
             await asyncio.sleep(2)
+            print(f'URL ATUAL[proposals-create] >>> \n{driver.title}\n>>>{driver.current_url}\n\n')
 
             cnpj_instalador = await aguardar_elemento(driver, 10, 'ID', 'installer_info_cnpj')
             if cnpj_instalador:
