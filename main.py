@@ -225,8 +225,11 @@ async def acessar_bv(driver, cliente):
             print(f'Entered email: {email_input.get_attribute("value")}')
             print(f'Entered password: {password_input.get_attribute("value")}')
 
-            password_input.send_keys(Keys.ENTER)
-            time.sleep(3)
+            # password_input.send_keys(Keys.ENTER)
+            driver.find_element(By.ID, 'login-form_button').click()
+            # Wait for the dashboard page to load
+            WebDriverWait(driver, 15).until(EC.url_to_be('https://instalador.meufinanciamentosolar.com.br/dashboard/home'))
+
             print(f'>>> Realizando login no banco BV <<<')
         except Exception as e:
             print(f'\x1b[32m[ {numero_proposta} - BANCO BV ]\x1b[0m  {e} \x1b[33m>>><<<<')
