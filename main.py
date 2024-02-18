@@ -212,18 +212,29 @@ async def acessar_bv(driver, cliente):
         time.sleep(3)
         
     
-        try: 
+        try:
             print(f'URL ATUAL [login] >>> \n{driver.title}\n>>>{driver.current_url}\n\n')
-            driver.find_element(By.ID, 'email').send_keys('sac@kinsolenergia.com.br')
-            driver.find_element(By.ID, 'password').send_keys('BA8jkFeY*')
-            driver.find_element(By.ID, 'password').send_keys(Keys.ENTER)
-            # driver.find_element(By.ID, 'login-form_button').click()
+
+            email_input = driver.find_element(By.ID, 'email')
+            password_input = driver.find_element(By.ID, 'password')
+
+            email_input.send_keys('sac@kinsolenergia.com.br')
+            password_input.send_keys('BA8jkFeY*')
+
+            # Print the entered credentials for debugging
+            print(f'Entered email: {email_input.get_attribute("value")}')
+            print(f'Entered password: {password_input.get_attribute("value")}')
+
+            password_input.send_keys(Keys.ENTER)
             time.sleep(3)
             print(f'>>> Realizando login no banco BV <<<')
-        except Exception as e: print(f'\x1b[32m[ {numero_proposta} - BANCO BV ]\x1b[0m  {e} \x1b[33m>>><<<<')
-        # VERIFICAR SE LOGOU COM SUCESSO! 
+        except Exception as e:
+            print(f'\x1b[32m[ {numero_proposta} - BANCO BV ]\x1b[0m  {e} \x1b[33m>>><<<<')
+
+        # VERIFICAR SE LOGOU COM SUCESSO!
         print(f'URL ATUAL [dashboard] >>> \n{driver.title}\n>>>{driver.current_url}\n\n')
-        
+    except Exception as e:
+        print(f'Some error occurred: {e}')
         try:
             driver.get('https://instalador.meufinanciamentosolar.com.br/dashboard/proposals-create')
             await asyncio.sleep(2)
