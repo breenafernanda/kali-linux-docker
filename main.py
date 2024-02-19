@@ -33,10 +33,10 @@ async def abrir_navegador(browser='chrome'):
             
             # Set Chrome options for headless mode and no-sandbox
             chrome_options.add_argument('--headless')
-            chrome_options.add_argument('--disable-gpu')  # Disable GPU acceleration
+            # chrome_options.add_argument('--disable-gpu')  # Disable GPU acceleration
             chrome_options.add_argument('--no-sandbox')   # Disable sandboxing for non-graphical environment
-            chrome_options.add_argument('--disable-dev-shm-usage')  # Disable /dev/shm usage
-            chrome_options.add_argument('--disable-software-rasterizer')  # Desativar rasterização de software
+            # chrome_options.add_argument('--disable-dev-shm-usage')  # Disable /dev/shm usage
+            # chrome_options.add_argument('--disable-software-rasterizer')  # Desativar rasterização de software
             chrome_options.add_argument('--disable-extensions')  # Desativar extensões
 
             # Set additional options as needed
@@ -230,6 +230,7 @@ async def acessar_bv(driver, cliente):
             time.sleep(10)
             try:
                 driver.find_element(By.ID, 'login-form_button').click()
+                print(f'>>> Clicou no botão de login <<<')
             except Exception as e: (f'>>> botao login nao disponivel: {e}')
 
             # imprimir log da pagina para saber se deu alguma mensagem de falha de login 
