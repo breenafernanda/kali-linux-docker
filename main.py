@@ -10,6 +10,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
+import logging
+from selenium import webdriver
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)  # You can adjust the logging level as needed
 
 async def aguardar_elemento(driver, tempo, tipo, code):
     try:
@@ -31,6 +36,8 @@ async def abrir_navegador(browser='chrome'):
         if browser.lower() == 'chrome':
             chrome_options = Options()
             
+
+ 
             # Set Chrome options for headless mode and no-sandbox
             chrome_options.add_argument('--headless')
             # chrome_options.add_argument('--disable-gpu')  # Disable GPU acceleration
@@ -38,6 +45,10 @@ async def abrir_navegador(browser='chrome'):
             # chrome_options.add_argument('--disable-dev-shm-usage')  # Disable /dev/shm usage
             # chrome_options.add_argument('--disable-software-rasterizer')  # Desativar rasterização de software
             chrome_options.add_argument('--disable-extensions')  # Desativar extensões
+            
+            # Add logging preferences to capture browser logs
+            chrome_options.add_argument('--enable-logging')
+            chrome_options.add_argument('--log-level=0')  # Set log level (0 = INFO, 1 = WARNING, 2 = ERROR)
 
             # Set additional options as needed
             # chrome_options.add_argument('--some-option')
@@ -235,8 +246,13 @@ async def acessar_bv(driver, cliente):
 
             # imprimir log da pagina para saber se deu alguma mensagem de falha de login 
                 # Capture and print the page source
-            print("Page source after login attempt:")
-            print(driver.page_source)
+            # print("Page source after login attempt:")
+            # print(driver.page_source)
+
+            # Get and print browser logs
+            browser_logs = driver.get_log('browser')
+            for log_entry in browser_logs:
+                print(log_entry)
             print(f'>>> Realizando login no banco BV <<<')
         except Exception as e:
             print(f'\x1b[32m[ {numero_proposta} - BANCO BV ]  -ERRO AO LOGAR {e}\x1b[0m  ')
